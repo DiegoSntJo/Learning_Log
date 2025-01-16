@@ -1,0 +1,23 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+    {% if form.errors %}
+        <p style="color: red;">*O nome de usuário não deve conter caracteres especiais.</p>
+        <p style="color: red;">
+            *A senha deve conter no mínimo 8 dígitos, letras maiúsculas, minúsculas, números e
+            caracteres especiais, não deve conter o nome de usuário.
+        </p>
+        <p style="color: red;">As senhas devem ser iguais.</p>
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="POST" class="ul-none">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">Registrar</button>
+        {% endbuttons %}
+        <input type="hidden" name="next" value="{% url 'index' %}">
+    </form>
+{% endblock content %}
