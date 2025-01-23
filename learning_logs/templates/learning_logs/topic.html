@@ -5,14 +5,13 @@
 {% endblock header%}
 
 {% block content%}
-
-    <p>
-        <a href="{% url 'new_entry' topic.id %}">Adicione uma nova anotação</a>
-    </p>
    
     <form method="POST" action="{% url 'delete_multiple' %}">
         {% csrf_token %}
-        <small><input type="submit" value="Apagar"></small>
+        <div class="space panel panel-default position-relative">
+            <div><a href="{% url 'new_entry' topic.id %}">Adicione uma nova anotação</a></div>
+            <div><input type="submit" value="Apagar" class="btn btn-primary"></div>
+        </div>
         {% for entry in entries %}
             <div class="panel panel-default">
                     <div class="panel-heading">
@@ -20,8 +19,8 @@
                             <input type="checkbox" value="{{ entry.id }}" name="mycheckbox">
                             {{ entry.date_added | date:'M d, Y H:i'}}
 
-                            <small><a href="{% url 'edit_entry' entry.id %}">Editar</a></small>
-                            <small><a href="{% url 'delete_entry' entry.id %}">Excluir</a></small>
+                            <small><a href="{% url 'edit_entry' entry.id %}" class="btn btn-primary">Editar</a></small>
+                            <!-- <small><a href="{% url 'delete_entry' entry.id %}">Excluir</a></small> -->
                         </h3>
                     </div>
 
