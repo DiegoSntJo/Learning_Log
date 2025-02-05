@@ -97,31 +97,20 @@ def edit_entry(request, entry_id):
     return render(request,'learning_logs/edit_entry.html',context)
 
 @login_required
-def delete_entry(request, entry_id):
-    """Exclui uma entrada existente"""
-    entry = Entry.objects.get(id=entry_id)
-    topic = entry.topic
+def delete_multiple(request, topic_id):
+    """Exclui uma ou mais de uma entrada existente"""
+    topic = Topic.objects.get(id = topic_id)
 
     #Garante que o assunto pertence ao usuário atual
     if topic.owner != request.user:
         raise Http404
-    
-    Entry.objects.filter(id=entry_id).delete()
-    #if request.method != 'POST':      
 
-    #context = {'entry': entry, 'topic': topic}   
-    return HttpResponseRedirect(reverse('topic', args=[topic.id]))
-
-#Ajeitar, muito bagunçado
-@login_required
-def delete_multiple(request,id=None):
     #Apaga selecionados
     if request != "GET":
-
         getidnew = request.POST.getlist('mycheckbox')
 
         for getid in getidnew:
             contactData = Entry.objects.get(id=getid)
             contactData.delete()
  
-    return HttpResponseRedirect(reverse('topics'))
+    return HttpResponseRedirect(reverse('topic', args=[topic.id]))

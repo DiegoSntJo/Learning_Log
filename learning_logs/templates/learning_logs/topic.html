@@ -6,11 +6,11 @@
 
 {% block content%}
    
-    <form method="POST" action="{% url 'delete_multiple' %}">
+    <form id="formulario" method="POST" action="{% url 'delete_multiple' topic.id %}">
         {% csrf_token %}
         <div class="space panel panel-default position-relative">
             <div><a href="{% url 'new_entry' topic.id %}">Adicione uma nova anotação</a></div>
-            <div><input type="submit" value="Apagar" class="btn btn-primary"></div>
+            <div><input type="submit" onclick="confirmarEnvio(event)" value="Apagar" class="btn btn-danger"></div>
         </div>
         {% for entry in entries %}
             <div class="panel panel-default">
@@ -20,7 +20,6 @@
                             {{ entry.date_added | date:'M d, Y H:i'}}
 
                             <small><a href="{% url 'edit_entry' entry.id %}" class="btn btn-primary">Editar</a></small>
-                            <!-- <small><a href="{% url 'delete_entry' entry.id %}">Excluir</a></small> -->
                         </h3>
                     </div>
 
@@ -33,5 +32,13 @@
         {% endfor %}
     </form>
     
+    <script>
+        function confirmarEnvio(event) {
+            event.preventDefault();
+            if (confirm("Você deseja realmente apagar os tópicos selecionados ?")) {
+                document.getElementById("formulario").submit();
+            }
+        }
+    </script>
 
 {% endblock content %}
